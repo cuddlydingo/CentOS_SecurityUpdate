@@ -1,0 +1,25 @@
+sudo: required
+language: ruby
+
+services:
+  - docker
+
+matrix:
+  fast_finish: true
+
+  include:
+    - env: CENTOS="centos7"
+
+# Docker related permissions issues on Travis
+before_install:
+  - mkdir -p .eggs
+  - chmod a+rwx .eggs
+  - mkdir -p centos_package_cron.egg-info
+  - chmod a+rwx centos_package_cron.egg-info
+  - chmod a+rwx centos_package_cron
+  - mkdir -p tests/__pycache__
+  - chmod -R a+rwx tests
+  - chmod a+rwx .
+
+script:
+  - rake --trace
